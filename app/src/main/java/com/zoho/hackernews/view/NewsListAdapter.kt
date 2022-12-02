@@ -1,5 +1,5 @@
 
-package com.zoho.hackernews.ui
+package com.zoho.hackernews.view
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

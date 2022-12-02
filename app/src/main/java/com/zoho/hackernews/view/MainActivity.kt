@@ -1,4 +1,4 @@
-package com.zoho.hackernews.ui
+package com.zoho.hackernews.view
 
 import android.content.Intent
 import android.os.Bundle

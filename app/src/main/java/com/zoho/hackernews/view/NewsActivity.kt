@@ -1,14 +1,14 @@
-package com.zoho.hackernews.ui
+package com.zoho.hackernews.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.zoho.hackernews.databinding.ActivityNewsBinding
-import com.zoho.hackernews.ui.MainActivity.Companion.NEWS_BY
-import com.zoho.hackernews.ui.MainActivity.Companion.NEWS_TITLE
-import com.zoho.hackernews.ui.MainActivity.Companion.NEWS_TYPE
-import com.zoho.hackernews.ui.MainActivity.Companion.NEWS_URL
+import com.zoho.hackernews.view.MainActivity.Companion.NEWS_BY
+import com.zoho.hackernews.view.MainActivity.Companion.NEWS_TITLE
+import com.zoho.hackernews.view.MainActivity.Companion.NEWS_TYPE
+import com.zoho.hackernews.view.MainActivity.Companion.NEWS_URL
 
 class NewsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

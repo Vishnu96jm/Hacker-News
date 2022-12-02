@@ -4,7 +4,6 @@ import android.app.Application
 import android.view.View
 import com.google.android.material.snackbar.Snackbar
 import com.zoho.hackernews.data.db.NewsDatabase
-import com.zoho.hackernews.data.networking.RemoteApi
 import com.zoho.hackernews.data.networking.buildApiService
 
 lateinit var db: NewsDatabase
@@ -18,7 +17,6 @@ class App : Application() {
         //To expose the RemoteApi to the rest of the app
         val apiService by lazy { buildApiService() }
 
-        val remoteApi by lazy { RemoteApi(apiService) }
     }
 
     override fun onCreate() {
