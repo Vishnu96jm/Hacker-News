@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.zoho.hackernews.databinding.ItemHeadlineBinding
-import com.zoho.hackernews.model.News
+import com.zoho.hackernews.data.model.News
 
 
 class NewsListAdapter(private val newsList: MutableList<News>,

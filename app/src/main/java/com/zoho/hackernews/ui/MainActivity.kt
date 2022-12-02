@@ -5,13 +5,17 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.zoho.hackernews.App
 import com.zoho.hackernews.databinding.ActivityMainBinding
-import com.zoho.hackernews.model.News
+import com.zoho.hackernews.data.model.News
+import com.zoho.hackernews.viewmodel.MainViewModel
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 
 
 class MainActivity : AppCompatActivity() {
 
     private val remoteApi = App.remoteApi
     var newsList = mutableListOf<News>()
+    private lateinit var viewModel: MainViewModel
     private val adapter = NewsListAdapter(mutableListOf()) { news -> openNews(news) }
 
     companion object {
@@ -28,6 +32,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.rvItems.adapter = adapter
+
+      //  fetchNews()
+        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         remoteApi.fetchNewsList{
             val title = it.title
             val type = it.type
@@ -53,4 +60,16 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
       //  startActivity(intentFor<NewsActivity>("title" to news.title))
     }
+
+    /*private fun fetchNews() {
+       // showLoading()
+        viewModel.fetchNewsList { news ->
+          //  hideLoading()
+            if (news == null) {
+              //  showMessage()
+            } else {
+                adapter.setNews(news)
+            }
+        }
+    }*/
 }

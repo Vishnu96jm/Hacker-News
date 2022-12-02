@@ -1,11 +1,10 @@
-package com.zoho.hackernews.model
+package com.zoho.hackernews.data.model
 
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
+import androidx.room.Entity
 import com.squareup.moshi.Json
 
 
-//@Entity(tableName = "news")
+@Entity(tableName = "news")
 data class NewsResponse (
 
     @field:Json(name = "by") var by: String? = null,

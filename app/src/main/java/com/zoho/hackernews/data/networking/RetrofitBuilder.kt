@@ -1,8 +1,9 @@
-package com.zoho.hackernews.networking
+package com.zoho.hackernews.data.networking
 
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+
 
 fun buildClient(): OkHttpClient =
     OkHttpClient.Builder()

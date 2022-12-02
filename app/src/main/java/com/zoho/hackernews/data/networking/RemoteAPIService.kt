@@ -1,6 +1,6 @@
-package com.zoho.hackernews.networking
+package com.zoho.hackernews.data.networking
 
-import com.zoho.hackernews.model.NewsResponse
+import com.zoho.hackernews.data.model.NewsResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path

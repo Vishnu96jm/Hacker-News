@@ -1,8 +1,7 @@
-package com.zoho.hackernews.networking
+package com.zoho.hackernews.data.networking
 
 import android.util.Log
-import com.zoho.hackernews.model.News
-import com.zoho.hackernews.model.NewsResponse
+import com.zoho.hackernews.data.model.NewsResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

@@ -1,4 +1,4 @@
-package com.zoho.hackernews.model
+package com.zoho.hackernews.data.model
 
 import com.squareup.moshi.Json
 
