@@ -15,4 +15,5 @@ interface NewsDao {
 
     @Query("select * from news")
     fun getAll(): LiveData<List<NewsResponse>>
+
 }

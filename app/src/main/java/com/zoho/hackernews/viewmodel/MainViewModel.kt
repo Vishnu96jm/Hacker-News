@@ -27,10 +27,6 @@ class MainViewModel(private val repository: NewsRepository = NewsRepositoryImpl(
         return repository.fetchNews()
     }
 
-    /*fun fetchNews(): LiveData<List<NewsResponse>?> {
-        return repository.fetchNewsList()
-    }*/
-
     fun saveMovie(news: NewsResponse) {
         repository.saveNews(news)
     }

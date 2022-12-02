@@ -1,19 +1,21 @@
 package com.zoho.hackernews.ui
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import com.zoho.hackernews.App
-import com.zoho.hackernews.databinding.ActivityMainBinding
-import com.zoho.hackernews.viewmodel.MainViewModel
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.zoho.hackernews.R
 import com.zoho.hackernews.action
 import com.zoho.hackernews.data.model.NewsResponse
+import com.zoho.hackernews.databinding.ActivityMainBinding
 import com.zoho.hackernews.snack
+import com.zoho.hackernews.viewmodel.MainViewModel
+import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -39,16 +41,53 @@ class MainActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
+        binding.pullToRefresh.setOnRefreshListener {
+            fetchNews()
+        }
+
         fetchNews()
         viewModel.getSavedNews().observe(this, Observer { newsList ->
-            hideLoading()
             newsList?.let {
                 adapter.setNews(newsList)
             }
         })
 
+        binding.searchView.setOnQueryTextListener( object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText != null) {
+                    search(newText)
+                }
+                return true
+            }
+        })
+
     }
 
+    private fun search(text: String) {
+        showLoading()
+        val filteredNewsList = mutableListOf<NewsResponse>()
+
+        viewModel.getSavedNews().observe(this, Observer { newsList ->
+            hideLoading()
+            newsList?.let {
+                for (newsItem in newsList){
+                    if (newsItem.title!!.lowercase().contains(text.lowercase(Locale.getDefault()))) {
+                        filteredNewsList.add(newsItem)
+                    }
+                }
+            }
+        })
+
+        if (filteredNewsList.isEmpty()) {
+            Toast.makeText(this, "No Data Found..", Toast.LENGTH_SHORT).show()
+        } else {
+            adapter.setNews(filteredNewsList)
+        }
+    }
     private fun openNews(news: NewsResponse) {
         val title = news.title
         val type = news.type
@@ -86,11 +125,12 @@ class MainActivity : AppCompatActivity() {
     private fun fetchNews() {
         showLoading()
         viewModel.fetchNews().observe(this, Observer { news ->
-            hideLoading()
             if (news == null) {
                   showMessage()
             } else {
                 viewModel.saveMovie(news)
+                hideLoading()
+                binding.pullToRefresh.isRefreshing = false
             }
         })
     }

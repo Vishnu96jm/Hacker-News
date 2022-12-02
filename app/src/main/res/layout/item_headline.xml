@@ -22,8 +22,7 @@
             android:layout_centerVertical="true"
             android:fontFamily="@font/roboto"
             android:padding="@dimen/small_margin"
-            android:text="The task is to build a
-simple application which shows the latest HackerNews stories."
+            android:text="@string/testValue"
             android:textColor="#000"
             android:textSize="@dimen/title_text_size"
             android:layout_centerHorizontal="true"
