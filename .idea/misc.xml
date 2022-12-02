@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/HackerNews/app/src/main/res/layout/activity_main.xml" value="0.16770833333333332" />
+        <entry key="..\:/HackerNews/app/src/main/res/layout/activity_news.xml" value="0.16666666666666666" />
+        <entry key="..\:/HackerNews/app/src/main/res/layout/item_headline.xml" value="0.16770833333333332" />
         <entry key="..\:/ZohoAndroid/app/src/main/res/font/roboto.xml" value="0.17962962962962964" />
         <entry key="..\:/ZohoAndroid/app/src/main/res/layout/activity_main.xml" value="0.15364583333333334" />
         <entry key="..\:/ZohoAndroid/app/src/main/res/layout/item_headline.xml" value="0.16666666666666666" />

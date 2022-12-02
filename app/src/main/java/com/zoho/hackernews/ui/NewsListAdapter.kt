@@ -30,9 +30,11 @@ class NewsListAdapter(private val newsList: MutableList<News>,
         notifyDataSetChanged()
     }
 
-   inner class NewsViewHolder(binding: ItemHeadlineBinding) : RecyclerView.ViewHolder(binding.root){
+    inner class NewsViewHolder(binding: ItemHeadlineBinding) : RecyclerView.ViewHolder(binding.root){
              private val title: TextView = binding.titleText
+             private val view = binding.root
              fun bindData(news : News){
+                 view.setOnClickListener { listener(news) }
                  title.text = news.title
              }
          }
