@@ -27,6 +27,6 @@ class NewsActivity : AppCompatActivity() {
 
         val webView : WebView = binding.webView
         webView.webViewClient = WebViewClient()
-        webView.loadUrl(url!!)
+        url?.let { webView.loadUrl(it) }
     }
 }

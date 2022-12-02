@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:id="@+id/mainLayout"
     tools:context=".ui.MainActivity">
 
     <androidx.cardview.widget.CardView
@@ -21,6 +22,14 @@
             app:iconifiedByDefault="false">
         </androidx.appcompat.widget.SearchView>
     </androidx.cardview.widget.CardView>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_gravity="center"/>
 
 
     <androidx.recyclerview.widget.RecyclerView

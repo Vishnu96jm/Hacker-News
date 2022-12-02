@@ -6,11 +6,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.zoho.hackernews.databinding.ItemHeadlineBinding
-import com.zoho.hackernews.data.model.News
+import com.zoho.hackernews.data.model.NewsResponse
 
 
-class NewsListAdapter(private val newsList: MutableList<News>,
-                      private var listener: (News) -> Unit):
+class NewsListAdapter(private val newsList: MutableList<NewsResponse>,
+                      private var listener: (NewsResponse) -> Unit):
     RecyclerView.Adapter<NewsListAdapter.NewsViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
@@ -24,7 +24,7 @@ class NewsListAdapter(private val newsList: MutableList<News>,
 
     override fun getItemCount(): Int = newsList.size
 
-    fun setNews(newsList: List<News>) {
+    fun setNews(newsList: List<NewsResponse>) {
         this.newsList.clear()
         this.newsList.addAll(newsList)
         notifyDataSetChanged()
@@ -33,7 +33,7 @@ class NewsListAdapter(private val newsList: MutableList<News>,
     inner class NewsViewHolder(binding: ItemHeadlineBinding) : RecyclerView.ViewHolder(binding.root){
              private val title: TextView = binding.titleText
              private val view = binding.root
-             fun bindData(news : News){
+             fun bindData(news : NewsResponse){
                  view.setOnClickListener { listener(news) }
                  title.text = news.title
              }

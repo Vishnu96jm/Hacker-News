@@ -3,19 +3,23 @@ package com.zoho.hackernews.ui
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import com.zoho.hackernews.App
 import com.zoho.hackernews.databinding.ActivityMainBinding
-import com.zoho.hackernews.data.model.News
 import com.zoho.hackernews.viewmodel.MainViewModel
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.snackbar.Snackbar
+import com.zoho.hackernews.R
+import com.zoho.hackernews.action
+import com.zoho.hackernews.data.model.NewsResponse
+import com.zoho.hackernews.snack
 
 
 class MainActivity : AppCompatActivity() {
 
-    private val remoteApi = App.remoteApi
-    var newsList = mutableListOf<News>()
     private lateinit var viewModel: MainViewModel
+    private lateinit var binding: ActivityMainBinding
     private val adapter = NewsListAdapter(mutableListOf()) { news -> openNews(news) }
 
     companion object {
@@ -28,25 +32,24 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         binding.rvItems.adapter = adapter
 
-      //  fetchNews()
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        remoteApi.fetchNewsList{
-            val title = it.title
-            val type = it.type
-            val by = it.by
-            val url = it.url
-            newsList.add(News(title, url, type, by))
-            adapter.setNews(newsList)
-        }
+
+        fetchNews()
+        viewModel.getSavedNews().observe(this, Observer { newsList ->
+            hideLoading()
+            newsList?.let {
+                adapter.setNews(newsList)
+            }
+        })
 
     }
 
-    private fun openNews(news: News) {
+    private fun openNews(news: NewsResponse) {
         val title = news.title
         val type = news.type
         val url = news.url
@@ -58,18 +61,37 @@ class MainActivity : AppCompatActivity() {
         intent.putExtra(NEWS_URL, url)
         intent.putExtra(NEWS_BY, by)
         startActivity(intent)
-      //  startActivity(intentFor<NewsActivity>("title" to news.title))
     }
 
-    /*private fun fetchNews() {
-       // showLoading()
-        viewModel.fetchNewsList { news ->
-          //  hideLoading()
-            if (news == null) {
-              //  showMessage()
-            } else {
-                adapter.setNews(news)
+    private fun showLoading() {
+        binding.rvItems.adapter = adapter
+
+        binding.progressBar.visibility = View.VISIBLE
+        binding.rvItems.isEnabled = false
+    }
+
+    private fun hideLoading() {
+        binding.progressBar.visibility = View.GONE
+        binding.rvItems.isEnabled = true
+    }
+
+    private fun showMessage() {
+        binding.mainLayout.snack(getString(R.string.network_error), Snackbar.LENGTH_INDEFINITE) {
+            action(getString(R.string.ok)) {
+                fetchNews()
             }
         }
-    }*/
+    }
+
+    private fun fetchNews() {
+        showLoading()
+        viewModel.fetchNews().observe(this, Observer { news ->
+            hideLoading()
+            if (news == null) {
+                  showMessage()
+            } else {
+                viewModel.saveMovie(news)
+            }
+        })
+    }
 }

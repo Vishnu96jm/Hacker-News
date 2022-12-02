@@ -1,6 +1,8 @@
 package com.zoho.hackernews
 
 import android.app.Application
+import android.view.View
+import com.google.android.material.snackbar.Snackbar
 import com.zoho.hackernews.data.db.NewsDatabase
 import com.zoho.hackernews.data.networking.RemoteApi
 import com.zoho.hackernews.data.networking.buildApiService
@@ -24,4 +26,15 @@ class App : Application() {
         db = NewsDatabase.getInstance(this)
         instance = this
     }
+
+}
+
+inline fun View.snack(message: String, length: Int = Snackbar.LENGTH_INDEFINITE, f: Snackbar.() -> Unit) {
+    val snack = Snackbar.make(this, message, length)
+    snack.f()
+    snack.show()
+}
+
+fun Snackbar.action(action: String, listener: (View) -> Unit) {
+    setAction(action, listener)
 }

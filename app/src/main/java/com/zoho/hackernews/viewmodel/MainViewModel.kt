@@ -1,5 +1,6 @@
 package com.zoho.hackernews.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
 import com.zoho.hackernews.data.NewsRepository
@@ -17,8 +18,22 @@ class MainViewModel(private val repository: NewsRepository = NewsRepositoryImpl(
     fun getSavedNews() = allNews
 
     private fun getAllNews() {
-        allNews.addSource(repository.getSavedNews()) { newsResponse ->
-            allNews.postValue(newsResponse)
+        allNews.addSource(repository.getSavedNews()) { newsList ->
+            allNews.postValue(newsList)
         }
     }
+
+    fun fetchNews(): LiveData<NewsResponse> {
+        return repository.fetchNews()
+    }
+
+    /*fun fetchNews(): LiveData<List<NewsResponse>?> {
+        return repository.fetchNewsList()
+    }*/
+
+    fun saveMovie(news: NewsResponse) {
+        repository.saveNews(news)
+    }
+
+
 }

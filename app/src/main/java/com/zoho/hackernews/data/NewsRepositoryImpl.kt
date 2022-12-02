@@ -5,13 +5,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.zoho.hackernews.App
 import com.zoho.hackernews.data.db.NewsDao
-import com.zoho.hackernews.data.model.News
 import com.zoho.hackernews.data.model.NewsResponse
-import com.zoho.hackernews.data.networking.RemoteAPIService
 import com.zoho.hackernews.db
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import kotlin.concurrent.thread
 
 class NewsRepositoryImpl : NewsRepository{
 
@@ -25,11 +24,45 @@ class NewsRepositoryImpl : NewsRepository{
     }
     override fun getSavedNews(): LiveData<List<NewsResponse>> = allNews
 
-    override fun saveNews(movie: News) {
-        TODO("Not yet implemented")
+    override fun saveNews(news: NewsResponse) {
+        thread {
+            newsDao.insert(news)
+        }
     }
 
-    override fun fetchNewsList(query: String): LiveData<List<NewsResponse>?> {
+    override fun fetchNews(): LiveData<NewsResponse> {
+        val data = MutableLiveData<NewsResponse>()
+
+        apiService.getNewStories().enqueue(object : Callback<List<Int>> {
+            override fun onResponse(call: Call<List<Int>>, response: Response<List<Int>>) {
+                val newsIdList = response.body()!!
+                for (newsId in newsIdList){
+                    apiService.getNews(newsId).enqueue(object : Callback<NewsResponse> {
+                        override fun onResponse(
+                            call: Call<NewsResponse>,
+                            response: Response<NewsResponse>
+                        ) {
+                            data.value = response.body()!!
+                        }
+
+                        override fun onFailure(call: Call<NewsResponse>, t: Throwable) {
+                            Log.d(this.javaClass.simpleName, "Failure")
+                        }
+                    })
+
+                }
+            }
+
+            override fun onFailure(call: Call<List<Int>>, t: Throwable) {
+                Log.d(this.javaClass.simpleName, "Failure")
+            }
+        })
+        return data
+
+    }
+
+/*
+    override fun fetchNews(): LiveData<List<NewsResponse>?> {
         val data = MutableLiveData<List<NewsResponse>>()
         val news = mutableListOf<NewsResponse>()
 
@@ -61,4 +94,6 @@ class NewsRepositoryImpl : NewsRepository{
         return data
 
     }
+*/
+
 }

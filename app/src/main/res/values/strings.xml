@@ -2,4 +2,6 @@
     <string name="app_name">Hacker News</string>
     <string name="type">Type :</string>
     <string name="by">By :</string>
+    <string name="network_error">Network Error. Try Again?</string>
+    <string name="ok">Ok</string>
 </resources>
